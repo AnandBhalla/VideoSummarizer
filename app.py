@@ -6,6 +6,10 @@ from youtube_transcript_api import YouTubeTranscriptApi, NoTranscriptAvailable, 
 from dotenv import load_dotenv
 load_dotenv()
 
+genai_api_key = st.secrets["GENAI_API_KEY"]
+prompt = st.secrets["PROMPT"]
+
+
 def generate_transcript(url):
     video_id = url.split('v=')[-1]
     amp_index = video_id.find('&')
@@ -16,9 +20,10 @@ def generate_transcript(url):
     return text.strip()
 
 def generate_output(transcript):
-    genai.configure(api_key=os.getenv("GENAI_API_KEY"))
+    # genai.configure(api_key=os.getenv("GENAI_API_KEY"))
+    genai.configure(api_key=genai_api_key)
     model = genai.GenerativeModel("gemini-1.5-flash")
-    prompt=os.getenv("PROMPT")
+    # prompt=os.getenv("PROMPT")
     response = model.generate_content(prompt+transcript)
     return response.text
 
