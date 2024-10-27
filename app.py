@@ -11,18 +11,12 @@ genai.configure(api_key=genai_api_key)
 
 
 def generate_transcript(url):
-    # video_id = url.split('v=')[-1]
-    # amp_index = video_id.find('&')
-    # if amp_index != -1:
-    #     video_id = video_id[:amp_index]
-    # transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'hi'])
-    # text = "\n".join([entry['text'] for entry in transcript])
-    # return text.strip()
-    video_id=url.split("=")[1]
+    video_id=url.split('=')[1]
     transcript_text=YouTubeTranscriptApi.get_transcript(video_id)
     transcript = ""
     for i in transcript_text:
         transcript += " " + i["text"]
+    return transcript
 
 def generate_output(transcript):
     prompt = st.secrets["PROMPT"]
